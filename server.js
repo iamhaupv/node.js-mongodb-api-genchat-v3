@@ -42,6 +42,8 @@ function getAccessToken(idUser) {
 }
 
 app.use("/createCallToken", (req, res) => {
+  console.log("----------------------------");
+  console.log(req.body);
   const { phoneNumber } = req.body;
   const data = getAccessToken(phoneNumber);
 
