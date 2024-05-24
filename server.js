@@ -18,7 +18,26 @@ const cors = require("cors");
 const { join } = require("node:path");
 const server = http.createServer(app);
 const server_group = http.createServer(app);
+
+app.get("/", (req, res) => {
+  res.sendFile(join(__dirname, "index.html"));
+});
+// CORS middleware
+app.use(cors({ origin: true }));
+// check token
+// app.use(checkToken);
+// middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 //
+app.use(express.static("./src"));
+// url users
+app.use("/users", userRouter);
+// url messengers
+app.use("/messengers", messengerRouter);
+// url rooms
+app.use("/rooms", roomRouter);
+
 function getAccessToken(idUser) {
   const apiKeySid = "SK.0.QzbQyQiyFdV7tC18LBvbiw0twB7y7v";
   const apiKeySecret = "RGRMM0piRDVMaEhFVFh5UVRlWG5hejZTYjBBOGZs";
@@ -51,25 +70,6 @@ app.use("/createCallToken", (req, res) => {
     data: data,
   });
 });
-
-app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "index.html"));
-});
-// CORS middleware
-app.use(cors({ origin: true }));
-// check token
-// app.use(checkToken);
-// middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-//
-app.use(express.static("./src"));
-// url users
-app.use("/users", userRouter);
-// url messengers
-app.use("/messengers", messengerRouter);
-// url rooms
-app.use("/rooms", roomRouter);
 
 // const socketIo = require("socket.io")(server, {
 const socketIo = new Server(server, {
