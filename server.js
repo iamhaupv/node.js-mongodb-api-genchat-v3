@@ -41,9 +41,9 @@ function getAccessToken(idUser) {
   return token;
 }
 
-app.use("/createCallToken", async (req, res) => {
+app.use("/createCallToken", (req, res) => {
   const { phoneNumber } = req.body;
-  const data = await getAccessToken(phoneNumber);
+  const data = getAccessToken(phoneNumber);
 
   return res.status(200).json({
     data: data,
